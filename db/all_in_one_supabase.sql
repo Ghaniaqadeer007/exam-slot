@@ -1,5 +1,5 @@
 -- =============================================================================
--- EXAMSLOT HACKATHON ALL-IN-ONE SUPABASE DATABASE (SCHEMA + SEED + RLS)
+-- EXAMSLOT HACKATHON ALL-IN-ONE SUPABASE DATABASE (SCHEMA + MIGRATION + SEED + RLS)
 -- 100% Fail-Safe PostgreSQL Script for Supabase SQL Editor
 -- =============================================================================
 
@@ -25,6 +25,9 @@ CREATE TABLE IF NOT EXISTS public.branches (
     capacity INTEGER NOT NULL DEFAULT 500,
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
+
+-- Ensure capacity column exists if branches table was created previously without it
+ALTER TABLE public.branches ADD COLUMN IF NOT EXISTS capacity INTEGER NOT NULL DEFAULT 500;
 
 -- 3. COURSES TABLE (Academic Courses)
 CREATE TABLE IF NOT EXISTS public.courses (
@@ -77,6 +80,10 @@ CREATE TABLE IF NOT EXISTS public.students (
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
+-- Ensure unlock columns exist if students table was created previously without them
+ALTER TABLE public.students ADD COLUMN IF NOT EXISTS branch_change_unlocked INTEGER NOT NULL DEFAULT 0;
+ALTER TABLE public.students ADD COLUMN IF NOT EXISTS datesheet_change_unlocked INTEGER NOT NULL DEFAULT 0;
+
 -- 5. COURSE ASSIGNMENTS TABLE (4 to 6 Course Rule Junction)
 CREATE TABLE IF NOT EXISTS public.course_assignments (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -96,6 +103,9 @@ CREATE TABLE IF NOT EXISTS public.exam_slots (
     capacity INTEGER NOT NULL DEFAULT 60,
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
+
+-- Ensure capacity column exists on exam_slots if table was created previously without it
+ALTER TABLE public.exam_slots ADD COLUMN IF NOT EXISTS capacity INTEGER NOT NULL DEFAULT 60;
 
 -- 7. DATE SHEET SELECTIONS TABLE (Finalized Schedules)
 CREATE TABLE IF NOT EXISTS public.date_sheet_selections (
