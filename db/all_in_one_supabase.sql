@@ -80,7 +80,9 @@ CREATE TABLE IF NOT EXISTS public.students (
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
--- Ensure unlock columns exist if students table was created previously without them
+-- Ensure defaults and columns exist if table was created previously
+ALTER TABLE public.students ADD COLUMN IF NOT EXISTS dob DATE NOT NULL DEFAULT '2004-01-01';
+ALTER TABLE public.students ADD COLUMN IF NOT EXISTS gender TEXT NOT NULL DEFAULT 'MALE';
 ALTER TABLE public.students ADD COLUMN IF NOT EXISTS branch_change_unlocked INTEGER NOT NULL DEFAULT 0;
 ALTER TABLE public.students ADD COLUMN IF NOT EXISTS datesheet_change_unlocked INTEGER NOT NULL DEFAULT 0;
 
@@ -159,8 +161,33 @@ INSERT INTO public.users (id, email, password_hash, role) VALUES
 ('u1111111-1111-1111-1111-111111111111', 'student@examslot.test', 'student123', 'STUDENT')
 ON CONFLICT (email) DO NOTHING;
 
-INSERT INTO public.students (id, user_id, full_name, phone, cnic, father_name, parent_cnic, parent_occupation, parent_contact, emergency_contact, registration_number, program, semester, session, marks_or_cgpa, address) VALUES
-('s1111111-1111-1111-1111-111111111111', 'u1111111-1111-1111-1111-111111111111', 'Fatima Ali', '+92 300 1234567', '35201-1234567-1', 'Muhammad Ali', '35201-7654321-1', 'Civil Engineer', '+92 321 7654321', '+92 300 9998877', 'BC220201001', 'BS Computer Science', 3, 'Fall 2026', 3.65, 'House 14, Street 2, Model Town, Lahore')
+INSERT INTO public.students (
+    id, user_id, full_name, phone, cnic, dob, gender, address, photo_url,
+    father_name, parent_cnic, parent_occupation, parent_contact, emergency_contact,
+    registration_number, program, semester, session, previous_qualification, previous_institute, marks_or_cgpa
+) VALUES (
+    's1111111-1111-1111-1111-111111111111',
+    'u1111111-1111-1111-1111-111111111111',
+    'Fatima Ali',
+    '+92 300 1234567',
+    '35201-1234567-1',
+    '2004-01-01',
+    'FEMALE',
+    'House 14, Street 2, Model Town, Lahore',
+    NULL,
+    'Muhammad Ali',
+    '35201-7654321-1',
+    'Civil Engineer',
+    '+92 321 7654321',
+    '+92 300 9998877',
+    'BC220201001',
+    'BS Computer Science',
+    3,
+    'Fall 2026',
+    'FSc Pre-Engineering',
+    'Punjab College',
+    3.65
+)
 ON CONFLICT (registration_number) DO NOTHING;
 
 -- Seed Course Assignments
