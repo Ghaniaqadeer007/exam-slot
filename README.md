@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ExamSlot — Self-Service Exam Date Sheet System
 A multi-branch exam management platform enabling students to autonomously design, validate, and print conflict-free examination schedules, backed by administrative oversight, controlled change workflows, and multi-campus logistics.   
 PDF
@@ -292,3 +293,206 @@ POST /api/admin/assignments — Assign 4 to 6 courses to a student[cite: 4, 8].
 POST /api/admin/exam-slots — Publish date and time slots for courses[cite: 4].
 
 PATCH /api/admin/requests/:id — Approve or reject requests with admin remarks[cite: 4, 5].
+=======
+# ExamSlot &bull; Self-Service Exam Date Sheet System
+**Platform:** Virtual University of Pakistan &bull; Loopverse 3.0 Hackathon (Web Dev Onsite)  
+**Live Application URL:** [http://localhost:5000](http://localhost:5000)
+
+---
+
+## 1. System Overview
+
+ExamSlot is a full-stack web application designed for a multi-branch Virtual University where students sit examinations in person. Instead of publishing a rigid, fixed date sheet, ExamSlot enables students to self-serve: they choose their permanent examination branch and pick personalized, conflict-free exam date and time slots from administrative offerings.
+
+The system features two interconnected portals:
+* **Admin Panel:** Full CRUD for Branches, Courses, 3-Group Students, Course Assignments (enforcing the 4–6 rule), Exam Schedule Slots, and Student Petitions with a single-use unlock engine. Every list features server-side search and pagination.
+* **Student Panel:** Single-use 24-hour onboarding/reset email links, one-time branch selection, read-only profile, assigned course slot selection with real-time conflict prevention, printable roll number slip (PDF), and a throttled "Need Help" change request workflow.
+
+---
+
+## 2. Entity-Relationship Diagram (ERD)
+
+```mermaid
+erDiagram
+    USERS ||--o| STUDENTS : "1 to 1"
+    USERS ||--o{ PASSWORD_TOKENS : "has reset tokens"
+    BRANCHES ||--o{ STUDENTS : "exam center"
+    STUDENTS ||--o{ COURSE_ASSIGNMENTS : "enrolled in (4-6)"
+    COURSES ||--o{ COURSE_ASSIGNMENTS : "assigned to"
+    COURSES ||--o{ EXAM_SLOTS : "schedules"
+    STUDENTS ||--o{ DATE_SHEET_SELECTIONS : "picks"
+    EXAM_SLOTS ||--o{ DATE_SHEET_SELECTIONS : "chosen by"
+    STUDENTS ||--o{ CHANGE_REQUESTS : "submits"
+    BRANCHES ||--o{ CHANGE_REQUESTS : "target branch"
+
+    USERS {
+        string id PK
+        string email UK
+        string vu_id UK
+        string password_hash
+        string role "admin | student"
+        datetime created_at
+    }
+
+    BRANCHES {
+        string id PK
+        string code UK
+        string name
+        string city
+        string address
+        string contact_number
+        string status "active | inactive"
+        int capacity
+    }
+
+    STUDENTS {
+        string id PK
+        string user_id FK
+        string registration_number UK
+        string full_name
+        string email UK
+        string phone
+        string cnic UK
+        date dob
+        string gender
+        string address
+        string father_name
+        string parent_cnic
+        string parent_occupation
+        string parent_contact
+        string emergency_contact
+        string program
+        int semester
+        string session
+        string marks_or_cgpa
+        string branch_id FK
+        bool branch_locked
+        string datesheet_status "not_saved | saved"
+        int branch_change_unlocked
+        int datesheet_change_unlocked
+    }
+
+    COURSES {
+        string id PK
+        string course_code UK
+        string title
+        int credit_hours
+        string department
+        string status "active | inactive"
+    }
+
+    COURSE_ASSIGNMENTS {
+        string id PK
+        string student_id FK
+        string course_id FK
+    }
+
+    EXAM_SLOTS {
+        string id PK
+        string course_id FK
+        date exam_date
+        string day_name
+        time start_time
+        time end_time
+        int capacity
+        int booked_count
+    }
+
+    DATE_SHEET_SELECTIONS {
+        string id PK
+        string student_id FK
+        string course_id FK
+        string slot_id FK
+    }
+
+    CHANGE_REQUESTS {
+        string id PK
+        string student_id FK
+        string type "change_branch | change_datesheet"
+        string reason
+        string status "pending | approved | rejected"
+        string admin_remark
+        datetime consumed_at
+    }
+```
+
+---
+
+## 3. Seed Credentials (PRD Section 15.1)
+
+| Role | Username / Email | Password | Demo State Description |
+| :--- | :--- | :--- | :--- |
+| **👑 Admin** | `admin@examslot.test` | `admin123` | Full CRUD, safe-delete controls, request reviews |
+| **Student 1** | `std1@examslot.test` | `student123` | **Incomplete Assignment (3 courses):** Blocks branch selection & slot picker |
+| **Student 2** | `std2@examslot.test` | `student123` | **Complete (4 courses), Branch Pending:** One-time branch selection test |
+| **Student 3** | `std3@examslot.test` | `student123` | **Branch Chosen, Datesheet Pending:** Slot picker & conflict check demo |
+| **Student 4** | `std4@examslot.test` | `student123` | **Locked Date Sheet:** Finalized schedule & high-res print slip |
+| **Student 5** | `std5@examslot.test` | `student123` | **Locked with Pending Petition:** Demonstrates request review & unlock engine |
+
+*(Quick 1-click test buttons for all 6 demo accounts are built directly into the login gateway card).*
+
+---
+
+## 4. Assumptions (PRD Section 17)
+
+| ID | Assumption |
+| :--- | :--- |
+| **[A1]** | A single administrative role; no hierarchical sub-roles. |
+| **[A2]** | Student next-page state order: `assignment complete` $\to$ `branch chosen` $\to$ `date sheet saved`. |
+| **[A3]** | Access token lifetime 60 minutes; session token cached on client. |
+| **[A4]** | **Safe-delete rule:** Branches chosen by students cannot be hard-deleted (`409 Conflict`); they are marked inactive instead so saved date sheets keep showing the branch. |
+| **[A5]** | Courses with assignments or slots cannot be hard-deleted; mark inactive. |
+| **[A6]** | Resending a setup email invalidates earlier tokens. |
+| **[A7]** | Deleting a student cascades to their assignments, selections, and requests after explicit confirmation. |
+| **[A8]** | Phone, CNIC, and CGPA formats follow Pakistani conventions (`03XX-XXXXXXX`, 13-digit CNIC, 4.00 CGPA scale). |
+| **[A9]** | After a date sheet is saved, assignment changes are blocked unless a date sheet change request is approved. |
+| **[A10]** | Chosen slots cannot be deleted or have date/time edited (`409 Conflict`). |
+| **[A11]** | Time zone is `Asia/Karachi` (UTC+5); stored in UTC. |
+| **[A12]** | Password policy: 8+ characters, includes at least one letter and one number. |
+| **[A13]** | Slot picker displays date and time together per course. |
+| **[A14]** | Draft picks live in the client until Save. |
+| **[A15]** | A student can have one pending request of each type at the same time. |
+| **[A16]** | A request can only be raised when the thing it unlocks is currently locked. |
+| **[A17]** | Approved branch change clears saved date sheet selections (slots may not match the new branch); date sheet re-selection unlocks automatically. |
+| **[A18]** | If a slot has no end time, treat it as 3 hours long for overlap conflict checks. |
+
+---
+
+## 5. Five-Minute Demo Script (PRD Section 16)
+
+1. **(0:00 - 0:45) Admin Panel & Safe Delete:**
+   * Log in as `admin@examslot.test`.
+   * Open **Branches** tab: search and server-side pagination. Click **Delete** on Lahore campus $\to$ see safe-delete block (`409 Conflict` with student count).
+2. **(0:45 - 1:30) Student Creation & Setup Email Link:**
+   * Open **Students** tab $\to$ click **Add Student**. Fill Personal, Parent, and Academic groups.
+   * On submission, view the single-use 24-hour setup link modal.
+3. **(1:30 - 2:00) 4–6 Course Assignment Rule:**
+   * Open **Course Assignments** tab $\to$ notice Student 1 has 3 courses ("Assignment Incomplete").
+   * Try assigning 3 courses or 7 courses $\to$ server strictly rejects with `409 ASSIGNMENT_LIMIT`.
+4. **(2:00 - 2:30) Exam Slots & Protection:**
+   * Open **Exam Slots** tab: create slot with past date $\to$ rejected. Delete slot chosen by Student 4 $\to$ rejected (`409 IN_USE`).
+5. **(2:30 - 3:00) Student Branch Selection (One-Time Only):**
+   * Log in as Student 2 (`std2@examslot.test`).
+   * Select Karachi branch $\to$ confirm. Log out and log back in $\to$ branch selection page is skipped permanently.
+6. **(3:00 - 3:45) Slot Picker, Conflict Rule & Print Slip:**
+   * Log in as Student 3 (`std3@examslot.test`).
+   * Pick conflicting slots on Oct 24 at 09:00 AM $\to$ real-time conflict alert banner appears and Save is blocked.
+   * Pick valid non-conflicting slots $\to$ click **Save & Generate Date Sheet** $\to$ view formal Examination Roll Number Slip and click **Print Date Sheet**.
+7. **(3:45 - 4:30) Need Help & One-Time Unlock Engine:**
+   * Log in as Student 5 (`std5@examslot.test`) $\to$ view pending petition. Try submitting duplicate request $\to$ rejected (`409 REQUEST_ALREADY_PENDING`).
+   * Switch to Admin $\to$ **Petitions** tab $\to$ click **Approve** with remarks.
+   * Switch back to Student 5 $\to$ date sheet is unlocked **one time only** with a green notification banner.
+8. **(4:30 - 5:00) Mobile 360px Walkthrough:**
+   * Resize viewport to 360 px width $\to$ tables collapse into responsive cards with zero horizontal page scroll.
+
+---
+
+## 6. How to Run Locally
+
+1. **Quick Launch:** Double-click [`start.bat`](file:///c:/Users/hp/Desktop/hackatation/start.bat) in the root directory.
+2. **Command Line:**
+   ```powershell
+   node server/index.js
+   ```
+3. Open **`http://localhost:5000`** in any browser.
+>>>>>>> 330756f (Initial commit: ExamSlot platform with authentication, full database persistence, and React portal UI)

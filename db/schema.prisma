@@ -1,0 +1,267 @@
+// =============================================================================
+// EXAMSOLOT PRISMA SCHEMA
+// Used for Prisma ORM with PostgreSQL, MySQL, or SQLite
+// =============================================================================
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql" // Or "sqlite" / "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// -----------------------------------------------------------------------------
+// ENUMS
+// -----------------------------------------------------------------------------
+enum Role {
+  ADMIN
+  STUDENT
+}
+
+enum BranchStatus {
+  ACTIVE
+  INACTIVE
+}
+
+enum CourseStatus {
+  ACTIVE
+  INACTIVE
+}
+
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
+}
+
+enum DateSheetStatus {
+  NOT_SAVED
+  SAVED
+}
+
+enum RequestType {
+  CHANGE_BRANCH
+  CHANGE_DATESHEET
+}
+
+enum RequestStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum TokenPurpose {
+  SETUP
+  RESET
+}
+
+// -----------------------------------------------------------------------------
+// MODELS
+// -----------------------------------------------------------------------------
+
+model User {
+  id            String    @id @default(uuid())
+  email         String    @unique
+  passwordHash  String    @map("password_hash")
+  role          Role      @default(STUDENT)
+  isActive      Boolean   @default(true) @map("is_active")
+  lastLoginAt   DateTime? @map("last_login_at")
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+
+  // Relations
+  student          Student?
+  assignedCourses  CourseAssignment[] @relation("AssignedByAdmin")
+  decidedRequests  ChangeRequest[]    @relation("DecidedByAdmin")
+  passwordTokens   PasswordToken[]
+  auditLogs        AuditLog[]
+
+  @@map("users")
+}
+
+model Branch {
+  id            String       @id @default(uuid())
+  code          String       @unique
+  name          String
+  city          String
+  address       String
+  contactNumber String       @map("contact_number")
+  status        BranchStatus @default(ACTIVE)
+  createdAt     DateTime     @default(now()) @map("created_at")
+  updatedAt     DateTime     @updatedAt @map("updated_at")
+
+  // Relations
+  students            Student[]
+  dateSheetSelections DateSheetSelection[]
+
+  @@map("branches")
+}
+
+model Course {
+  id          String       @id @default(uuid())
+  courseCode  String       @unique @map("course_code")
+  title       String
+  creditHours Int          @map("credit_hours")
+  department  String
+  status      CourseStatus @default(ACTIVE)
+  createdAt   DateTime     @default(now()) @map("created_at")
+  updatedAt   DateTime     @updatedAt @map("updated_at")
+
+  // Relations
+  assignments         CourseAssignment[]
+  examSlots           ExamSlot[]
+  dateSheetSelections DateSheetSelection[]
+
+  @@map("courses")
+}
+
+model Student {
+  id        String   @id @default(uuid())
+  userId    String   @unique @map("user_id")
+
+  // Personal Group
+  fullName  String   @map("full_name")
+  phone     String
+  cnic      String   @unique
+  dob       DateTime
+  gender    Gender
+  address   String
+  photoUrl  String?  @map("photo_url")
+
+  // Parent / Guardian Group
+  fatherName       String @map("father_name")
+  parentCnic       String @map("parent_cnic")
+  parentOccupation String @map("parent_occupation")
+  parentContact    String @map("parent_contact")
+  emergencyContact String @map("emergency_contact")
+
+  // Academic Group
+  registrationNumber   String  @unique @map("registration_number")
+  program              String
+  semester             Int
+  session              String
+  previousQualification String @map("previous_qualification")
+  previousInstitute     String @map("previous_institute")
+  marksOrCgpa          Float   @map("marks_or_cgpa")
+
+  // Branch Selection & Lock Status
+  branchId            String?         @map("branch_id")
+  branchLocked        Boolean         @default(false) @map("branch_locked")
+  datesheetStatus     DateSheetStatus @default(NOT_SAVED) @map("datesheet_status")
+  datesheetSavedAt    DateTime?       @map("datesheet_saved_at")
+
+  createdAt           DateTime        @default(now()) @map("created_at")
+  updatedAt           DateTime        @updatedAt @map("updated_at")
+
+  // Relations
+  user                User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  branch              Branch?              @relation(fields: [branchId], references: [id], onDelete: Restrict)
+  assignments         CourseAssignment[]
+  dateSheetSelections DateSheetSelection[]
+  changeRequests      ChangeRequest[]
+
+  @@map("students")
+}
+
+model CourseAssignment {
+  id         String   @id @default(uuid())
+  studentId  String   @map("student_id")
+  courseId   String   @map("course_id")
+  assignedBy String?  @map("assigned_by")
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  // Relations
+  student Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  course  Course  @relation(fields: [courseId], references: [id], onDelete: Restrict)
+  admin   User?   @relation("AssignedByAdmin", fields: [assignedBy], references: [id], onDelete: SetNull)
+
+  @@unique([studentId, courseId])
+  @@map("course_assignments")
+}
+
+model ExamSlot {
+  id        String   @id @default(uuid())
+  courseId  String   @map("course_id")
+  examDate  DateTime @map("exam_date")
+  startTime String   @map("start_time")
+  endTime   String?  @map("end_time")
+  capacity  Int?
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  course              Course               @relation(fields: [courseId], references: [id], onDelete: Restrict)
+  dateSheetSelections DateSheetSelection[]
+
+  @@unique([courseId, examDate, startTime])
+  @@map("exam_slots")
+}
+
+model DateSheetSelection {
+  id        String   @id @default(uuid())
+  studentId String   @map("student_id")
+  courseId  String   @map("course_id")
+  slotId    String   @map("slot_id")
+  branchId  String   @map("branch_id")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  // Relations
+  student Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  course  Course   @relation(fields: [courseId], references: [id], onDelete: Restrict)
+  slot    ExamSlot @relation(fields: [slotId], references: [id], onDelete: Restrict)
+  branch  Branch   @relation(fields: [branchId], references: [id], onDelete: Restrict)
+
+  @@unique([studentId, courseId])
+  @@map("date_sheet_selections")
+}
+
+model ChangeRequest {
+  id          String        @id @default(uuid())
+  studentId   String        @map("student_id")
+  type        RequestType
+  reason      String
+  status      RequestStatus @default(PENDING)
+  adminRemark String?       @map("admin_remark")
+  decidedBy   String?       @map("decided_by")
+  decidedAt   DateTime?     @map("decided_at")
+  consumedAt  DateTime?     @map("consumed_at")
+  createdAt   DateTime      @default(now()) @map("created_at")
+
+  // Relations
+  student Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  admin   User?   @relation("DecidedByAdmin", fields: [decidedBy], references: [id], onDelete: SetNull)
+
+  @@map("change_requests")
+}
+
+model PasswordToken {
+  id        String       @id @default(uuid())
+  userId    String       @map("user_id")
+  tokenHash String       @map("token_hash")
+  purpose   TokenPurpose
+  expiresAt DateTime     @map("expires_at")
+  usedAt    DateTime?    @map("used_at")
+  createdAt DateTime     @default(now()) @map("created_at")
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("password_tokens")
+}
+
+model AuditLog {
+  id        String   @id @default(uuid())
+  actorId   String?  @map("actor_id")
+  action    String
+  entity    String
+  entityId  String?  @map("entity_id")
+  metadata  String?
+  createdAt DateTime @default(now()) @map("created_at")
+
+  // Relations
+  actor User? @relation(fields: [actorId], references: [id], onDelete: SetNull)
+
+  @@map("audit_logs")
+}

@@ -1,0 +1,787 @@
+{
+  "users": [
+    {
+      "id": "u-admin-0000-0000-0000-000000000001",
+      "email": "admin@examslot.test",
+      "vu_id": "admin@examslot.test",
+      "password": "83fcd3f7129b081faeb043dc07262e63fea599da4be6869a7a1780f7084a15b4",
+      "role": "admin",
+      "created_at": "2026-10-09 07:47:53"
+    },
+    {
+      "id": "u-stu-0001",
+      "email": "student1@examslot.test",
+      "vu_id": "student1@examslot.test",
+      "password": "7997bb5dd4c8345097e4fbd88b796de77fc1505625b975926ff9b7a00f83afe4",
+      "role": "student",
+      "created_at": "2026-10-09 07:47:53"
+    },
+    {
+      "id": "u-stu-0002",
+      "email": "student2@examslot.test",
+      "vu_id": "student2@examslot.test",
+      "password": "7997bb5dd4c8345097e4fbd88b796de77fc1505625b975926ff9b7a00f83afe4",
+      "role": "student",
+      "created_at": "2026-10-09 07:47:53"
+    },
+    {
+      "id": "u-stu-0003",
+      "email": "student3@examslot.test",
+      "vu_id": "student3@examslot.test",
+      "password": "7997bb5dd4c8345097e4fbd88b796de77fc1505625b975926ff9b7a00f83afe4",
+      "role": "student",
+      "created_at": "2026-10-09 07:47:53"
+    },
+    {
+      "id": "u-stu-0004",
+      "email": "student4@examslot.test",
+      "vu_id": "student4@examslot.test",
+      "password": "7997bb5dd4c8345097e4fbd88b796de77fc1505625b975926ff9b7a00f83afe4",
+      "role": "student",
+      "created_at": "2026-10-09 07:47:53"
+    },
+    {
+      "id": "u-stu-0005",
+      "email": "student5@examslot.test",
+      "vu_id": "student5@examslot.test",
+      "password": "7997bb5dd4c8345097e4fbd88b796de77fc1505625b975926ff9b7a00f83afe4",
+      "role": "student",
+      "created_at": "2026-10-09 07:47:53"
+    },
+    {
+      "id": "usr_1791546168366",
+      "email": "jisoobebe03@gmail.com",
+      "vu_id": "SXBVHSGUS5",
+      "password": "676767",
+      "role": "student",
+      "created_at": "2026-10-09T11:42:48.366Z"
+    }
+  ],
+  "branches": [
+    {
+      "id": "b-lhr-01",
+      "code": "LHR",
+      "name": "Lahore Campus",
+      "city": "Lahore",
+      "address": "12-A Canal Bank Road, Lahore",
+      "contact_number": "042-111-222-333",
+      "status": "active",
+      "capacity": 500,
+      "created_at": "2026-10-09 07:47:53"
+    },
+    {
+      "id": "b-isb-02",
+      "code": "ISB",
+      "name": "Islamabad Campus",
+      "city": "Islamabad",
+      "address": "Sector H-8/4, Islamabad",
+      "contact_number": "051-111-222-444",
+      "status": "active",
+      "capacity": 500,
+      "created_at": "2026-10-09 07:47:53"
+    },
+    {
+      "id": "b-khi-03",
+      "code": "KHI",
+      "name": "Karachi Campus",
+      "city": "Karachi",
+      "address": "Block 6 PECHS, Main Shahrah-e-Faisal, Karachi",
+      "contact_number": "021-111-222-555",
+      "status": "active",
+      "capacity": 500,
+      "created_at": "2026-10-09 07:47:53"
+    },
+    {
+      "id": "b-fsd-04",
+      "code": "FSD",
+      "name": "Faisalabad Campus",
+      "city": "Faisalabad",
+      "address": "Sargodha Road, Faisalabad",
+      "contact_number": "041-111-222-666",
+      "status": "inactive",
+      "capacity": 500,
+      "created_at": "2026-10-09 07:47:53"
+    }
+  ],
+  "courses": [
+    {
+      "id": "c-cs101",
+      "course_code": "CS101",
+      "title": "Programming Fundamentals",
+      "credit_hours": 3,
+      "department": "Computer Science",
+      "status": "active",
+      "created_at": "2026-10-09 07:47:53"
+    },
+    {
+      "id": "c-cs201",
+      "course_code": "CS201",
+      "title": "Data Structures",
+      "credit_hours": 3,
+      "department": "Computer Science",
+      "status": "active",
+      "created_at": "2026-10-09 07:47:53"
+    },
+    {
+      "id": "c-cs301",
+      "course_code": "CS301",
+      "title": "Database Systems",
+      "credit_hours": 3,
+      "department": "Computer Science",
+      "status": "active",
+      "created_at": "2026-10-09 07:47:53"
+    },
+    {
+      "id": "c-cs310",
+      "course_code": "CS310",
+      "title": "Computer Networks",
+      "credit_hours": 3,
+      "department": "Computer Science",
+      "status": "active",
+      "created_at": "2026-10-09 07:47:53"
+    },
+    {
+      "id": "c-mt101",
+      "course_code": "MT101",
+      "title": "Calculus",
+      "credit_hours": 3,
+      "department": "Mathematics",
+      "status": "active",
+      "created_at": "2026-10-09 07:47:53"
+    },
+    {
+      "id": "c-mt201",
+      "course_code": "MT201",
+      "title": "Linear Algebra",
+      "credit_hours": 3,
+      "department": "Mathematics",
+      "status": "active",
+      "created_at": "2026-10-09 07:47:53"
+    },
+    {
+      "id": "c-en101",
+      "course_code": "EN101",
+      "title": "English Composition",
+      "credit_hours": 2,
+      "department": "Humanities",
+      "status": "active",
+      "created_at": "2026-10-09 07:47:53"
+    },
+    {
+      "id": "c-se301",
+      "course_code": "SE301",
+      "title": "Software Engineering",
+      "credit_hours": 3,
+      "department": "Software Engineering",
+      "status": "active",
+      "created_at": "2026-10-09 07:47:53"
+    }
+  ],
+  "students": [
+    {
+      "id": "st-0001",
+      "user_id": "u-stu-0001",
+      "registration_number": "BCS2023001",
+      "full_name": "Ali Khan",
+      "email": "student1@examslot.test",
+      "phone": "0300-1111111",
+      "cnic": "35202-1111111-1",
+      "dob": "2002-05-15",
+      "gender": "Male",
+      "address": "123 University Road, City",
+      "profile_photo": null,
+      "father_name": "Guardian Name",
+      "parent_cnic": "35202-0000000-0",
+      "parent_occupation": "Business",
+      "parent_contact": "0300-0000000",
+      "emergency_contact": "0300-9999999",
+      "program": "BS Computer Science",
+      "semester": 3,
+      "session": "Fall 2023",
+      "previous_qualification": "FSc Pre-Engineering",
+      "previous_institute": "Punjab College",
+      "marks_or_cgpa": "3.65",
+      "branch_id": null,
+      "branch_locked": false,
+      "datesheet_status": "not_saved",
+      "datesheet_saved_at": null,
+      "branch_change_unlocked": 0,
+      "datesheet_change_unlocked": 0,
+      "created_at": "2026-10-09 07:47:53"
+    },
+    {
+      "id": "st-0002",
+      "user_id": "u-stu-0002",
+      "registration_number": "BCS2023002",
+      "full_name": "Fatima Zahra",
+      "email": "student2@examslot.test",
+      "phone": "0301-2222222",
+      "cnic": "35202-2222222-2",
+      "dob": "2002-05-15",
+      "gender": "Male",
+      "address": "123 University Road, City",
+      "profile_photo": null,
+      "father_name": "Guardian Name",
+      "parent_cnic": "35202-0000000-0",
+      "parent_occupation": "Business",
+      "parent_contact": "0300-0000000",
+      "emergency_contact": "0300-9999999",
+      "program": "BS Computer Science",
+      "semester": 3,
+      "session": "Fall 2023",
+      "previous_qualification": "FSc Pre-Engineering",
+      "previous_institute": "Punjab College",
+      "marks_or_cgpa": "3.65",
+      "branch_id": null,
+      "branch_locked": false,
+      "datesheet_status": "not_saved",
+      "datesheet_saved_at": null,
+      "branch_change_unlocked": 0,
+      "datesheet_change_unlocked": 0,
+      "created_at": "2026-10-09 07:47:53"
+    },
+    {
+      "id": "st-0003",
+      "user_id": "u-stu-0003",
+      "registration_number": "BCS2023003",
+      "full_name": "Usman Tariq",
+      "email": "student3@examslot.test",
+      "phone": "0302-3333333",
+      "cnic": "35202-3333333-3",
+      "dob": "2002-05-15",
+      "gender": "Male",
+      "address": "123 University Road, City",
+      "profile_photo": null,
+      "father_name": "Guardian Name",
+      "parent_cnic": "35202-0000000-0",
+      "parent_occupation": "Business",
+      "parent_contact": "0300-0000000",
+      "emergency_contact": "0300-9999999",
+      "program": "BS Computer Science",
+      "semester": 3,
+      "session": "Fall 2023",
+      "previous_qualification": "FSc Pre-Engineering",
+      "previous_institute": "Punjab College",
+      "marks_or_cgpa": "3.65",
+      "branch_id": "b-lhr-01",
+      "branch_locked": true,
+      "datesheet_status": "not_saved",
+      "datesheet_saved_at": null,
+      "branch_change_unlocked": 0,
+      "datesheet_change_unlocked": 0,
+      "created_at": "2026-10-09 07:47:53"
+    },
+    {
+      "id": "st-0004",
+      "user_id": "u-stu-0004",
+      "registration_number": "BCS2023004",
+      "full_name": "Ayesha Malik",
+      "email": "student4@examslot.test",
+      "phone": "0303-4444444",
+      "cnic": "35202-4444444-4",
+      "dob": "2002-05-15",
+      "gender": "Male",
+      "address": "123 University Road, City",
+      "profile_photo": null,
+      "father_name": "Guardian Name",
+      "parent_cnic": "35202-0000000-0",
+      "parent_occupation": "Business",
+      "parent_contact": "0300-0000000",
+      "emergency_contact": "0300-9999999",
+      "program": "BS Computer Science",
+      "semester": 3,
+      "session": "Fall 2023",
+      "previous_qualification": "FSc Pre-Engineering",
+      "previous_institute": "Punjab College",
+      "marks_or_cgpa": "3.65",
+      "branch_id": "b-isb-02",
+      "branch_locked": true,
+      "datesheet_status": "saved",
+      "datesheet_saved_at": "2026-10-09 12:47:53",
+      "branch_change_unlocked": 0,
+      "datesheet_change_unlocked": 0,
+      "created_at": "2026-10-09 07:47:53"
+    },
+    {
+      "id": "st-0005",
+      "user_id": "u-stu-0005",
+      "registration_number": "BCS2023005",
+      "full_name": "Bilal Ahmed",
+      "email": "student5@examslot.test",
+      "phone": "0304-5555555",
+      "cnic": "35202-5555555-5",
+      "dob": "2002-05-15",
+      "gender": "Male",
+      "address": "123 University Road, City",
+      "profile_photo": null,
+      "father_name": "Guardian Name",
+      "parent_cnic": "35202-0000000-0",
+      "parent_occupation": "Business",
+      "parent_contact": "0300-0000000",
+      "emergency_contact": "0300-9999999",
+      "program": "BS Computer Science",
+      "semester": 3,
+      "session": "Fall 2023",
+      "previous_qualification": "FSc Pre-Engineering",
+      "previous_institute": "Punjab College",
+      "marks_or_cgpa": "3.65",
+      "branch_id": "b-khi-03",
+      "branch_locked": true,
+      "datesheet_status": "saved",
+      "datesheet_saved_at": "2026-10-09 12:47:53",
+      "branch_change_unlocked": 0,
+      "datesheet_change_unlocked": 0,
+      "created_at": "2026-10-09 07:47:53"
+    },
+    {
+      "id": "stu_1791546168366",
+      "user_id": "usr_1791546168366",
+      "full_name": "Ghania Qadeer",
+      "email": "jisoobebe03@gmail.com",
+      "phone": "+923030036222",
+      "cnic": "35202-2460556-6",
+      "dob": "2007-07-21",
+      "gender": "Male",
+      "address": "369 street 18 government employee cooperative housing society model town link road",
+      "profile_photo": null,
+      "father_name": "QADEER AHMAD",
+      "parent_cnic": "352024446055",
+      "parent_occupation": "BUSINESS",
+      "parent_contact": "0345262626",
+      "emergency_contact": "03873303992",
+      "registration_number": "SXBVHSGUS5",
+      "program": "BS Computer Science",
+      "semester": 1,
+      "session": "Fall 2026",
+      "previous_qualification": "HSSC / Intermediate",
+      "previous_institute": "PGC",
+      "marks_or_cgpa": "75",
+      "branch_id": null,
+      "branch_selected_at": null,
+      "datesheet_status": "pending",
+      "created_at": "2026-10-09T11:42:48.366Z"
+    }
+  ],
+  "course_assignments": [
+    {
+      "id": "c6db3e21-cec8-46ed-8490-b0aab035243e",
+      "student_id": "st-0001",
+      "course_id": "c-cs101"
+    },
+    {
+      "id": "6b9734fd-b85d-4db9-b1ac-86481d2103d2",
+      "student_id": "st-0001",
+      "course_id": "c-cs201"
+    },
+    {
+      "id": "a9d5fbab-1564-4d62-9f51-69486d7c3a8b",
+      "student_id": "st-0001",
+      "course_id": "c-mt101"
+    },
+    {
+      "id": "3385cb65-3c18-476c-84ca-b05cf4043577",
+      "student_id": "st-0002",
+      "course_id": "c-cs101"
+    },
+    {
+      "id": "f59f371d-a0d2-4745-bb63-f0f744300c66",
+      "student_id": "st-0002",
+      "course_id": "c-cs201"
+    },
+    {
+      "id": "8bd6ebc7-1a89-4a45-b465-a5fed38f2419",
+      "student_id": "st-0002",
+      "course_id": "c-mt101"
+    },
+    {
+      "id": "ecdf462e-b651-49b0-ba30-ce6e0f7c167d",
+      "student_id": "st-0002",
+      "course_id": "c-cs301"
+    },
+    {
+      "id": "9c2bed89-7f1d-4a49-bdee-c42178a670e4",
+      "student_id": "st-0003",
+      "course_id": "c-cs101"
+    },
+    {
+      "id": "5fdfccc9-44fc-40aa-ac42-2555996f6852",
+      "student_id": "st-0003",
+      "course_id": "c-cs201"
+    },
+    {
+      "id": "88f8927b-bbf7-4638-8da0-8e4aae868863",
+      "student_id": "st-0003",
+      "course_id": "c-mt101"
+    },
+    {
+      "id": "abaf7cae-cb7a-404e-9c38-72b8f5c05039",
+      "student_id": "st-0003",
+      "course_id": "c-en101"
+    },
+    {
+      "id": "46cfc8cb-6f0b-4c19-b0d7-f50b932527e7",
+      "student_id": "st-0004",
+      "course_id": "c-cs101"
+    },
+    {
+      "id": "1227fbe8-e2d9-409a-99fa-5fb01b9f9b95",
+      "student_id": "st-0004",
+      "course_id": "c-cs201"
+    },
+    {
+      "id": "678f7a8c-2009-477f-a662-74dc308bd4a0",
+      "student_id": "st-0004",
+      "course_id": "c-mt101"
+    },
+    {
+      "id": "da3472a8-ed0b-4ad9-88b0-0138dbba4b79",
+      "student_id": "st-0004",
+      "course_id": "c-se301"
+    },
+    {
+      "id": "20557ae0-26a5-4dd4-a9cc-001f6cc1b831",
+      "student_id": "st-0005",
+      "course_id": "c-cs101"
+    },
+    {
+      "id": "f492246e-0889-4da0-94f5-1fdf18fac665",
+      "student_id": "st-0005",
+      "course_id": "c-cs201"
+    },
+    {
+      "id": "e248924c-ae81-438a-ab4a-f2424b61abe7",
+      "student_id": "st-0005",
+      "course_id": "c-mt101"
+    },
+    {
+      "id": "858fce61-a4d7-4c7e-813c-c72ab562f65c",
+      "student_id": "st-0005",
+      "course_id": "c-cs310"
+    },
+    {
+      "id": "3dc60e46-b96a-4d97-abd7-438b60ba3ae3",
+      "student_id": "st-0005",
+      "course_id": "c-se301"
+    },
+    {
+      "id": "ca_1791546168366_lu1u",
+      "student_id": "stu_1791546168366",
+      "course_id": "c-cs101",
+      "assigned_at": "2026-10-09T11:42:48.366Z"
+    },
+    {
+      "id": "ca_1791546168366_tzm3",
+      "student_id": "stu_1791546168366",
+      "course_id": "c-cs201",
+      "assigned_at": "2026-10-09T11:42:48.366Z"
+    },
+    {
+      "id": "ca_1791546168366_kuyz",
+      "student_id": "stu_1791546168366",
+      "course_id": "c-cs301",
+      "assigned_at": "2026-10-09T11:42:48.366Z"
+    },
+    {
+      "id": "ca_1791546168366_ojx6",
+      "student_id": "stu_1791546168366",
+      "course_id": "c-cs310",
+      "assigned_at": "2026-10-09T11:42:48.366Z"
+    },
+    {
+      "id": "ca_1791546242201_2eda",
+      "student_id": "stu_1791546242201",
+      "course_id": "c-cs101",
+      "assigned_at": "2026-10-09T11:44:02.201Z"
+    },
+    {
+      "id": "ca_1791546242201_qq4u",
+      "student_id": "stu_1791546242201",
+      "course_id": "c-cs201",
+      "assigned_at": "2026-10-09T11:44:02.201Z"
+    },
+    {
+      "id": "ca_1791546242201_h35i",
+      "student_id": "stu_1791546242201",
+      "course_id": "c-cs301",
+      "assigned_at": "2026-10-09T11:44:02.201Z"
+    },
+    {
+      "id": "ca_1791546242201_isv7",
+      "student_id": "stu_1791546242201",
+      "course_id": "c-cs310",
+      "assigned_at": "2026-10-09T11:44:02.201Z"
+    }
+  ],
+  "exam_slots": [
+    {
+      "id": "s-cs101-1",
+      "course_id": "c-cs101",
+      "exam_date": "2027-01-11",
+      "day_name": "Monday",
+      "start_time": "09:00",
+      "end_time": "12:00",
+      "capacity": 50,
+      "booked_count": 2,
+      "created_at": "2026-10-09 07:47:53"
+    },
+    {
+      "id": "s-cs101-2",
+      "course_id": "c-cs101",
+      "exam_date": "2027-01-15",
+      "day_name": "Friday",
+      "start_time": "14:00",
+      "end_time": "17:00",
+      "capacity": 50,
+      "booked_count": 0,
+      "created_at": "2026-10-09 07:47:53"
+    },
+    {
+      "id": "s-cs201-1",
+      "course_id": "c-cs201",
+      "exam_date": "2027-01-11",
+      "day_name": "Monday",
+      "start_time": "09:00",
+      "end_time": "12:00",
+      "capacity": 40,
+      "booked_count": 1,
+      "created_at": "2026-10-09 07:47:53"
+    },
+    {
+      "id": "s-cs201-2",
+      "course_id": "c-cs201",
+      "exam_date": "2027-01-13",
+      "day_name": "Wednesday",
+      "start_time": "14:00",
+      "end_time": "17:00",
+      "capacity": 40,
+      "booked_count": 0,
+      "created_at": "2026-10-09 07:47:53"
+    },
+    {
+      "id": "s-cs201-3",
+      "course_id": "c-cs201",
+      "exam_date": "2027-01-15",
+      "day_name": "Friday",
+      "start_time": "09:00",
+      "end_time": "12:00",
+      "capacity": 40,
+      "booked_count": 1,
+      "created_at": "2026-10-09 07:47:53"
+    },
+    {
+      "id": "s-cs301-1",
+      "course_id": "c-cs301",
+      "exam_date": "2027-01-12",
+      "day_name": "Tuesday",
+      "start_time": "09:00",
+      "end_time": "12:00",
+      "capacity": 35,
+      "booked_count": 0,
+      "created_at": "2026-10-09 07:47:53"
+    },
+    {
+      "id": "s-cs301-2",
+      "course_id": "c-cs301",
+      "exam_date": "2027-01-16",
+      "day_name": "Saturday",
+      "start_time": "14:00",
+      "end_time": "17:00",
+      "capacity": 35,
+      "booked_count": 0,
+      "created_at": "2026-10-09 07:47:53"
+    },
+    {
+      "id": "s-cs310-1",
+      "course_id": "c-cs310",
+      "exam_date": "2027-01-14",
+      "day_name": "Thursday",
+      "start_time": "09:00",
+      "end_time": "12:00",
+      "capacity": 30,
+      "booked_count": 1,
+      "created_at": "2026-10-09 07:47:53"
+    },
+    {
+      "id": "s-cs310-2",
+      "course_id": "c-cs310",
+      "exam_date": "2027-01-18",
+      "day_name": "Monday",
+      "start_time": "14:00",
+      "end_time": "17:00",
+      "capacity": 30,
+      "booked_count": 0,
+      "created_at": "2026-10-09 07:47:53"
+    },
+    {
+      "id": "s-mt101-1",
+      "course_id": "c-mt101",
+      "exam_date": "2027-01-12",
+      "day_name": "Tuesday",
+      "start_time": "14:00",
+      "end_time": "17:00",
+      "capacity": 60,
+      "booked_count": 1,
+      "created_at": "2026-10-09 07:47:53"
+    },
+    {
+      "id": "s-mt101-2",
+      "course_id": "c-mt101",
+      "exam_date": "2027-01-13",
+      "day_name": "Wednesday",
+      "start_time": "14:00",
+      "end_time": "17:00",
+      "capacity": 60,
+      "booked_count": 0,
+      "created_at": "2026-10-09 07:47:53"
+    },
+    {
+      "id": "s-mt101-3",
+      "course_id": "c-mt101",
+      "exam_date": "2027-01-16",
+      "day_name": "Saturday",
+      "start_time": "09:00",
+      "end_time": "12:00",
+      "capacity": 60,
+      "booked_count": 1,
+      "created_at": "2026-10-09 07:47:53"
+    },
+    {
+      "id": "s-mt201-1",
+      "course_id": "c-mt201",
+      "exam_date": "2027-01-14",
+      "day_name": "Thursday",
+      "start_time": "14:00",
+      "end_time": "17:00",
+      "capacity": 45,
+      "booked_count": 0,
+      "created_at": "2026-10-09 07:47:53"
+    },
+    {
+      "id": "s-mt201-2",
+      "course_id": "c-mt201",
+      "exam_date": "2027-01-19",
+      "day_name": "Tuesday",
+      "start_time": "09:00",
+      "end_time": "12:00",
+      "capacity": 45,
+      "booked_count": 0,
+      "created_at": "2026-10-09 07:47:53"
+    },
+    {
+      "id": "s-en101-1",
+      "course_id": "c-en101",
+      "exam_date": "2027-01-15",
+      "day_name": "Friday",
+      "start_time": "09:00",
+      "end_time": "12:00",
+      "capacity": 70,
+      "booked_count": 0,
+      "created_at": "2026-10-09 07:47:53"
+    },
+    {
+      "id": "s-en101-2",
+      "course_id": "c-en101",
+      "exam_date": "2027-01-20",
+      "day_name": "Wednesday",
+      "start_time": "14:00",
+      "end_time": "17:00",
+      "capacity": 70,
+      "booked_count": 0,
+      "created_at": "2026-10-09 07:47:53"
+    },
+    {
+      "id": "s-se301-1",
+      "course_id": "c-se301",
+      "exam_date": "2027-01-18",
+      "day_name": "Monday",
+      "start_time": "09:00",
+      "end_time": "12:00",
+      "capacity": 40,
+      "booked_count": 2,
+      "created_at": "2026-10-09 07:47:53"
+    },
+    {
+      "id": "s-se301-2",
+      "course_id": "c-se301",
+      "exam_date": "2027-01-21",
+      "day_name": "Thursday",
+      "start_time": "14:00",
+      "end_time": "17:00",
+      "capacity": 40,
+      "booked_count": 0,
+      "created_at": "2026-10-09 07:47:53"
+    }
+  ],
+  "date_sheet_selections": [
+    {
+      "id": "c16a8f8f-2607-42bd-842c-d98876b4bb12",
+      "student_id": "st-0004",
+      "course_id": "c-cs101",
+      "slot_id": "s-cs101-1"
+    },
+    {
+      "id": "4b725761-856a-4b8d-bb78-e2cfb066648f",
+      "student_id": "st-0004",
+      "course_id": "c-cs201",
+      "slot_id": "s-cs201-1"
+    },
+    {
+      "id": "e8e6635d-e681-4da5-ac3c-3753b51611fc",
+      "student_id": "st-0004",
+      "course_id": "c-mt101",
+      "slot_id": "s-mt101-1"
+    },
+    {
+      "id": "0a6427af-d8d2-409b-ba44-2c812b2614ae",
+      "student_id": "st-0004",
+      "course_id": "c-se301",
+      "slot_id": "s-se301-1"
+    },
+    {
+      "id": "10d46311-7da7-4042-bcc7-318e10785aed",
+      "student_id": "st-0005",
+      "course_id": "c-cs101",
+      "slot_id": "s-cs101-1"
+    },
+    {
+      "id": "b73a4c46-425a-4346-a218-c8344741fec8",
+      "student_id": "st-0005",
+      "course_id": "c-cs201",
+      "slot_id": "s-cs201-3"
+    },
+    {
+      "id": "27f27679-f279-4dcc-9ff6-e3c72ef4b705",
+      "student_id": "st-0005",
+      "course_id": "c-mt101",
+      "slot_id": "s-mt101-3"
+    },
+    {
+      "id": "469d96c0-4681-493c-82f3-a9b919b2e5d8",
+      "student_id": "st-0005",
+      "course_id": "c-cs310",
+      "slot_id": "s-cs310-1"
+    },
+    {
+      "id": "6c6ff3a3-0604-493e-866d-f5a5d6373de6",
+      "student_id": "st-0005",
+      "course_id": "c-se301",
+      "slot_id": "s-se301-1"
+    }
+  ],
+  "change_requests": [
+    {
+      "id": "req-0005-01",
+      "student_id": "st-0005",
+      "type": "change_datesheet",
+      "reason": "I have an urgent medical appointment on 2027-01-11 and need to change my CS101 slot.",
+      "status": "pending",
+      "admin_remark": null,
+      "decided_by": null,
+      "decided_at": null,
+      "consumed_at": null,
+      "created_at": "2026-10-09 07:47:53"
+    }
+  ],
+  "password_tokens": [],
+  "email_logs": []
+}
