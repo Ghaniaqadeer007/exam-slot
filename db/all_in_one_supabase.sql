@@ -1,14 +1,11 @@
 -- =============================================================================
--- EXAMSOLT HACKATHON ALL-IN-ONE SUPABASE DATABASE (SCHEMA + SEED + RLS)
--- Run this single file in Supabase SQL Editor to initialize 100% of the database!
+-- EXAMSLOT HACKATHON ALL-IN-ONE SUPABASE DATABASE (SCHEMA + SEED + RLS)
+-- 100% Fail-Safe PostgreSQL Script for Supabase SQL Editor
 -- =============================================================================
 
--- 1. CLEANUP & EXTENSIONS
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
-
--- 2. USERS TABLE (Credentials & Roles)
+-- 1. USERS TABLE (Credentials & Roles)
 CREATE TABLE IF NOT EXISTS public.users (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     email TEXT NOT NULL UNIQUE,
     password_hash TEXT NOT NULL,
     role TEXT NOT NULL DEFAULT 'STUDENT' CHECK (role IN ('ADMIN', 'STUDENT')),
@@ -16,9 +13,9 @@ CREATE TABLE IF NOT EXISTS public.users (
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
--- 3. BRANCHES TABLE (Exam Centers)
+-- 2. BRANCHES TABLE (Exam Centers)
 CREATE TABLE IF NOT EXISTS public.branches (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     code TEXT NOT NULL UNIQUE,
     name TEXT NOT NULL,
     city TEXT NOT NULL,
@@ -29,9 +26,9 @@ CREATE TABLE IF NOT EXISTS public.branches (
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
--- 4. COURSES TABLE (Academic Courses)
+-- 3. COURSES TABLE (Academic Courses)
 CREATE TABLE IF NOT EXISTS public.courses (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     course_code TEXT NOT NULL UNIQUE,
     title TEXT NOT NULL,
     credit_hours INTEGER NOT NULL CHECK (credit_hours BETWEEN 1 AND 6),
@@ -40,9 +37,9 @@ CREATE TABLE IF NOT EXISTS public.courses (
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
--- 5. STUDENTS TABLE (Full 3-Group Profile)
+-- 4. STUDENTS TABLE (Full 3-Group Profile)
 CREATE TABLE IF NOT EXISTS public.students (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     user_id UUID NOT NULL UNIQUE REFERENCES public.users(id) ON DELETE CASCADE,
     
     -- Group 1: Personal Information
@@ -80,18 +77,18 @@ CREATE TABLE IF NOT EXISTS public.students (
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
--- 6. COURSE ASSIGNMENTS TABLE (4 to 6 Course Rule Junction)
+-- 5. COURSE ASSIGNMENTS TABLE (4 to 6 Course Rule Junction)
 CREATE TABLE IF NOT EXISTS public.course_assignments (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     student_id UUID NOT NULL REFERENCES public.students(id) ON DELETE CASCADE,
     course_id UUID NOT NULL REFERENCES public.courses(id) ON DELETE CASCADE,
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     CONSTRAINT uq_student_course UNIQUE (student_id, course_id)
 );
 
--- 7. EXAM SLOTS TABLE (Dates & Timings)
+-- 6. EXAM SLOTS TABLE (Dates & Timings)
 CREATE TABLE IF NOT EXISTS public.exam_slots (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     course_id UUID NOT NULL REFERENCES public.courses(id) ON DELETE CASCADE,
     exam_date DATE NOT NULL,
     start_time TEXT NOT NULL,
@@ -100,9 +97,9 @@ CREATE TABLE IF NOT EXISTS public.exam_slots (
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
--- 8. DATE SHEET SELECTIONS TABLE (Finalized Schedules)
+-- 7. DATE SHEET SELECTIONS TABLE (Finalized Schedules)
 CREATE TABLE IF NOT EXISTS public.date_sheet_selections (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     student_id UUID NOT NULL REFERENCES public.students(id) ON DELETE CASCADE,
     course_id UUID NOT NULL REFERENCES public.courses(id) ON DELETE CASCADE,
     slot_id UUID NOT NULL REFERENCES public.exam_slots(id) ON DELETE CASCADE,
@@ -110,9 +107,9 @@ CREATE TABLE IF NOT EXISTS public.date_sheet_selections (
     CONSTRAINT uq_selection_student_course UNIQUE (student_id, course_id)
 );
 
--- 9. CHANGE REQUESTS TABLE (Petitions & Unlocks)
+-- 8. CHANGE REQUESTS TABLE (Petitions & Unlocks)
 CREATE TABLE IF NOT EXISTS public.change_requests (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     student_id UUID NOT NULL REFERENCES public.students(id) ON DELETE CASCADE,
     type TEXT NOT NULL CHECK (type IN ('CHANGE_BRANCH', 'CHANGE_DATESHEET')),
     reason TEXT NOT NULL,
@@ -156,13 +153,13 @@ INSERT INTO public.students (id, user_id, full_name, phone, cnic, father_name, p
 ('s1111111-1111-1111-1111-111111111111', 'u1111111-1111-1111-1111-111111111111', 'Fatima Ali', '+92 300 1234567', '35201-1234567-1', 'Muhammad Ali', '35201-7654321-1', 'Civil Engineer', '+92 321 7654321', '+92 300 9998877', 'BC220201001', 'BS Computer Science', 3, 'Fall 2026', 3.65, 'House 14, Street 2, Model Town, Lahore')
 ON CONFLICT (registration_number) DO NOTHING;
 
--- Seed Course Assignments (4 courses assigned to demo student)
+-- Seed Course Assignments
 INSERT INTO public.course_assignments (student_id, course_id) VALUES
 ('s1111111-1111-1111-1111-111111111111', 'c1111111-1111-1111-1111-111111111111'),
 ('s1111111-1111-1111-1111-111111111111', 'c2222222-2222-2222-2222-222222222222'),
 ('s1111111-1111-1111-1111-111111111111', 'c3333333-3333-3333-3333-333333333333'),
 ('s1111111-1111-1111-1111-111111111111', 'c4444444-4444-4444-4444-444444444444')
-ON CONFLICT DO NOTHING;
+ON CONFLICT (student_id, course_id) DO NOTHING;
 
 -- Seed Exam Slots
 INSERT INTO public.exam_slots (course_id, exam_date, start_time, end_time) VALUES
@@ -171,7 +168,7 @@ INSERT INTO public.exam_slots (course_id, exam_date, start_time, end_time) VALUE
 ('c3333333-3333-3333-3333-333333333333', '2026-10-26', '09:00', '12:00'),
 ('c4444444-4444-4444-4444-444444444444', '2026-10-27', '14:00', '17:00');
 
--- Enable RLS & Public Access Policies for Hackathon
+-- Enable RLS
 ALTER TABLE public.users ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.students ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.branches ENABLE ROW LEVEL SECURITY;
@@ -181,14 +178,22 @@ ALTER TABLE public.exam_slots ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.date_sheet_selections ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.change_requests ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY "Public Read Users" ON public.users FOR SELECT USING (true);
-CREATE POLICY "Public All Users" ON public.users FOR ALL USING (true);
-CREATE POLICY "Public All Students" ON public.students FOR ALL USING (true);
-CREATE POLICY "Public Read Branches" ON public.branches FOR SELECT USING (true);
-CREATE POLICY "Public All Branches" ON public.branches FOR ALL USING (true);
-CREATE POLICY "Public Read Courses" ON public.courses FOR SELECT USING (true);
-CREATE POLICY "Public All Courses" ON public.courses FOR ALL USING (true);
-CREATE POLICY "Public All Assignments" ON public.course_assignments FOR ALL USING (true);
-CREATE POLICY "Public All Slots" ON public.exam_slots FOR ALL USING (true);
-CREATE POLICY "Public All Selections" ON public.date_sheet_selections FOR ALL USING (true);
-CREATE POLICY "Public All Requests" ON public.change_requests FOR ALL USING (true);
+-- Drop Policies if exist to prevent duplicate policy errors
+DROP POLICY IF EXISTS "Public All Users" ON public.users;
+DROP POLICY IF EXISTS "Public All Students" ON public.students;
+DROP POLICY IF EXISTS "Public All Branches" ON public.branches;
+DROP POLICY IF EXISTS "Public All Courses" ON public.courses;
+DROP POLICY IF EXISTS "Public All Assignments" ON public.course_assignments;
+DROP POLICY IF EXISTS "Public All Slots" ON public.exam_slots;
+DROP POLICY IF EXISTS "Public All Selections" ON public.date_sheet_selections;
+DROP POLICY IF EXISTS "Public All Requests" ON public.change_requests;
+
+-- Create Clean Public Policies
+CREATE POLICY "Public All Users" ON public.users FOR ALL USING (true) WITH CHECK (true);
+CREATE POLICY "Public All Students" ON public.students FOR ALL USING (true) WITH CHECK (true);
+CREATE POLICY "Public All Branches" ON public.branches FOR ALL USING (true) WITH CHECK (true);
+CREATE POLICY "Public All Courses" ON public.courses FOR ALL USING (true) WITH CHECK (true);
+CREATE POLICY "Public All Assignments" ON public.course_assignments FOR ALL USING (true) WITH CHECK (true);
+CREATE POLICY "Public All Slots" ON public.exam_slots FOR ALL USING (true) WITH CHECK (true);
+CREATE POLICY "Public All Selections" ON public.date_sheet_selections FOR ALL USING (true) WITH CHECK (true);
+CREATE POLICY "Public All Requests" ON public.change_requests FOR ALL USING (true) WITH CHECK (true);
