@@ -1,6 +1,3 @@
-Here is a comprehensive, production-ready README.md formatted to fulfill all evaluation and documentation criteria required by the hackathon.   
-PDF
-
 ExamSlot — Self-Service Exam Date Sheet System
 A multi-branch exam management platform enabling students to autonomously design, validate, and print conflict-free examination schedules, backed by administrative oversight, controlled change workflows, and multi-campus logistics.   
 PDF
